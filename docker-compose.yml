@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - ./instance/recipe_images:/app/instance/saved/recipe
+      - ./instance/community_images:/app/instance/uploads/community
+      - ./instance/menu_recipe_images:/app/instance/menu_recipe_images
+    env_file:
+      - backend/.env
+
+  mysql:
+    image: mysql:8.4
+
+    environment:
+      MYSQL_ROOT_PASSWORD: nkc2024
+      MYSQL_DATABASE: mirunavi_db
+    ports:
+      - "3301:3306"
+    volumes:
+      - ./db-data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d

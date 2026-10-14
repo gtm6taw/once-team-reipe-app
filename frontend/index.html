@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>みるナビ | Miru Navi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/db.js"></script>
+
+    <script src="js/app.js"></script>
+
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="app.navigate('home')">みる<span>ナビ</span></div>
+        <div class="header-right">
+            <div id="user-area"></div>
+        </div>
+    </header>
+
+    <!-- 左サイドバー -->
+    <aside>
+        <nav>
+            <a class="nav-item active" onclick="app.navigate('home')">ホーム</a>
+            <a class="nav-item" onclick="app.navigate('search')">レシピ検索</a>
+            <a class="nav-item" onclick="app.navigate('community')">みんなの料理</a>
+            <a class="nav-item" onclick="app.navigate('favorites')">お気に入り</a>
+            <a class="nav-item" onclick="app.navigate('store')">ストア</a>
+            <a class="nav-item" onclick="app.navigate('settings')">設定</a>
+        </nav>
+    </aside>
+
+    <!-- モバイルメニュー -->
+    <div class="mobile-nav">
+        <a class="nav-item active" onclick="app.navigate('home')">ホーム</a>
+        <a class="nav-item" onclick="app.navigate('search')">検索</a>
+        <a class="nav-item" onclick="app.navigate('community')">みんな</a>
+        <a class="nav-item" onclick="app.navigate('favorites')">お気に入り</a>
+        <a class="nav-item" onclick="app.navigate('store')">ストア</a>
+        <a class="nav-item" onclick="app.navigate('settings')">設定</a>
+    </div>
+
+    <main id="main-content"></main>
+
+    <!-- Floating Character Widget -->
+    <div class="character-container" id="character-widget" style="display: none;" onclick="app.navigate('account')">
+        <div class="streak-badge" id="streak-badge">🔥 0日</div>
+        <div class="character-avatar" id="char-avatar">
+            <span class="character-accessory" id="char-accessory"></span>
+        </div>
+        <div class="status-bar">
+            <div>Lv.<span id="char-level">1</span> <span id="char-name">みるボット</span></div>
+            <div style="font-size: 11px; margin-top: 4px;">DP: <span id="char-dp">0</span></div>
+            <div class="exp-bar">
+                <div class="exp-fill" id="char-exp-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-box">
+            <div style="text-align: right; margin-bottom: 16px;">
+                <button class="btn btn-outline btn-sm" onclick="app.closeAuthModal()">×</button>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="app.switchAuthTab('login')">ログイン</div>
+                <div class="auth-tab" onclick="app.switchAuthTab('register')">新規登録</div>
+            </div>
+            <div id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label>メールアドレス または ユーザーネーム</label>
+                    <input type="text" id="login-id" placeholder="user@example.com">
+                </div>
+                <div class="form-group">
+                    <label>パスワード</label>
+                    <input type="password" id="login-pass" placeholder="********">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="app.handleLogin()">ログイン</button>
+            </div>
+            <div id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label>ユーザーネーム</label>
+                    <input type="text" id="reg-name" placeholder="みるたろう">
+                </div>
+                <div class="form-group">
+                    <label>メールアドレス</label>
+                    <input type="email" id="reg-email" placeholder="user@example.com">
+                </div>
+                <div class="form-group">
+                    <label>パスワード</label>
+                    <input type="password" id="reg-pass" placeholder="8文字以上">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="app.handleRegister()">アカウント作成</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Camera Modal -->
+    <div class="camera-modal" id="camera-modal">
+        <div class="analysis-msg" id="analysis-msg"></div>
+        <div style="position: relative; display: inline-block;">
+            <video id="camera-video" autoplay playsinline></video>
+            <canvas id="camera-canvas"></canvas>
+            <div class="ai-scanning" id="ai-scanning"></div>
+        </div>
+        <div class="score-display" id="score-display">10 / 10</div>
+        
+        <!-- ここから追加 6/19 横田 AI判定結果を出力する部分-->
+        <div class="evaluation-feedback" id="evaluation-feedback"></div>
+        <!-- ここまで -->
+
+        <div class="camera-controls">
+            <button class="btn btn-accent" id="btn-capture" onclick="app.capturePhoto()">📷 撮影する</button>
+            <button class="btn btn-success" id="btn-evaluate" style="display:none; background: #2D6A4F; color: white;" onclick="app.evaluateDish()">✨ 評価する</button>
+            <button class="btn btn-outline" id="btn-retry" style="display:none; color: white; border-color: white;" onclick="app.retryCamera()">🔄 もう一度撮る</button>
+            <button class="btn btn-outline" id="btn-finish" style="display:none; color: white; border-color: white;" onclick="app.finishCameraFlow()">完了</button>
+            <button class="btn btn-outline" id="btn-close-camera" style="color: white; border-color: white;" onclick="app.closeCamera()">キャンセル</button>
+        </div>
+    </div>
+
+</body>
+</html>
